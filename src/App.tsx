@@ -4,7 +4,10 @@ import "./App.css";
 
 /**
  * Three.js 3D 场景组件
- * 渲染一个旋转的绿色立方体
+ * 渲染一个旋转的绿色立方体：1、场景 2、相机 3、渲染器 4、几何体 5、材质 6、网格
+ * 注意：renderer.domElement 是渲染器渲染的 canvas 元素，需要添加到指定的容器中，而不是 body
+ * 注意：几何体会加入到场景中，渲染器会渲染场景和相机
+ *
  */
 function App() {
   const mountRef = useRef<HTMLDivElement>(null);
