@@ -1,0 +1,328 @@
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ROUTES } from "../../../router";
+import "./index.scss";
+
+/**
+ * 导航菜单项接口
+ */
+interface MenuItem {
+  key: string;
+  title: string;
+  icon?: string;
+  badge?: string;
+  path?: string;
+  children?: MenuItem[];
+}
+
+/**
+ * 导航菜单组件
+ * 类似 Ant Design 的菜单结构
+ */
+interface NavigationMenuProps {
+  collapsed: boolean;
+  selectedKey?: string;
+  onMenuSelect?: (key: string) => void;
+}
+
+const NavigationMenu: React.FC<NavigationMenuProps> = ({
+  collapsed,
+  selectedKey,
+  onMenuSelect,
+}) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [expandedKeys, setExpandedKeys] = useState<string[]>([
+    "general",
+    "layout",
+    "threejs-examples",
+  ]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // 根据当前路径确定选中的菜单项
+  const getCurrentSelectedKey = () => {
+    if (selectedKey) return selectedKey;
+
+    switch (location.pathname) {
+      case ROUTES.OVERVIEW:
+        return "overview";
+      case ROUTES.CHANGELOG:
+        return "changelog";
+      case ROUTES.SIMPLE_EXAMPLE:
+        return "simple-example";
+      case ROUTES.ADVANCED_EXAMPLE:
+        return "advanced-example";
+      default:
+        return "simple-example";
+    }
+  };
+
+  const currentSelectedKey = getCurrentSelectedKey();
+
+  // 搜索过滤函数
+  const filterMenuItems = (items: MenuItem[], term: string): MenuItem[] => {
+    if (!term) return items;
+
+    return items.reduce((filtered: MenuItem[], item) => {
+      const matchesTitle = item.title
+        .toLowerCase()
+        .includes(term.toLowerCase());
+      const hasMatchingChildren =
+        item.children &&
+        item.children.some((child) =>
+          child.title.toLowerCase().includes(term.toLowerCase())
+        );
+
+      if (matchesTitle || hasMatchingChildren) {
+        const filteredItem = { ...item };
+        if (item.children) {
+          filteredItem.children = item.children.filter((child) =>
+            child.title.toLowerCase().includes(term.toLowerCase())
+          );
+        }
+        filtered.push(filteredItem);
+      }
+
+      return filtered;
+    }, []);
+  };
+
+  // 菜单数据
+  const menuData: MenuItem[] = [
+    {
+      key: "overview",
+      title: "组件总览",
+      icon: "📋",
+      path: ROUTES.OVERVIEW,
+    },
+    {
+      key: "changelog",
+      title: "更新日志",
+      icon: "📝",
+      badge: "v1.0.0",
+      path: ROUTES.CHANGELOG,
+    },
+    {
+      key: "general",
+      title: "通用",
+      icon: "🔧",
+      children: [
+        {
+          key: "button",
+          title: "Button 按钮",
+          icon: "🔘",
+        },
+        {
+          key: "float-button",
+          title: "FloatButton 悬浮按钮",
+          icon: "🔘",
+          badge: "1.0",
+        },
+        {
+          key: "icon",
+          title: "Icon 图标",
+          icon: "🎨",
+        },
+        {
+          key: "typography",
+          title: "Typography 排版",
+          icon: "📝",
+        },
+      ],
+    },
+    {
+      key: "layout",
+      title: "布局",
+      icon: "📐",
+      children: [
+        {
+          key: "divider",
+          title: "Divider 分割线",
+          icon: "➖",
+        },
+        {
+          key: "flex",
+          title: "Flex 弹性布局",
+          icon: "📏",
+          badge: "1.0",
+        },
+        {
+          key: "grid",
+          title: "Grid 栅格",
+          icon: "🔲",
+        },
+        {
+          key: "layout",
+          title: "Layout 布局",
+          icon: "🏗️",
+        },
+        {
+          key: "space",
+          title: "Space 间距",
+          icon: "↔️",
+        },
+        {
+          key: "splitter",
+          title: "Splitter 分隔面板",
+          icon: "✂️",
+          badge: "1.0",
+        },
+      ],
+    },
+    {
+      key: "navigation",
+      title: "导航",
+      icon: "🧭",
+      children: [
+        {
+          key: "breadcrumb",
+          title: "Breadcrumb 面包屑",
+          icon: "🍞",
+        },
+        {
+          key: "menu",
+          title: "Menu 导航菜单",
+          icon: "📋",
+        },
+        {
+          key: "pagination",
+          title: "Pagination 分页",
+          icon: "📄",
+        },
+      ],
+    },
+    {
+      key: "threejs-examples",
+      title: "Three.js 示例",
+      icon: "🎨",
+      children: [
+        {
+          key: "simple-example",
+          title: "简单示例",
+          icon: "🔲",
+          path: ROUTES.SIMPLE_EXAMPLE,
+        },
+        {
+          key: "first-example-2",
+          title: "简单示例2",
+          icon: "🔲",
+          path: ROUTES.SIMPLE_EXAMPLE_2,
+        },
+        {
+          key: "first-example-3",
+          title: "简单示例3",
+          icon: "🔲",
+          path: ROUTES.SIMPLE_EXAMPLE_3,
+        },
+        {
+          key: "advanced-example",
+          title: "高级示例",
+          icon: "🌟",
+          path: ROUTES.ADVANCED_EXAMPLE,
+        },
+      ],
+    },
+  ];
+
+  /**
+   * 切换展开/折叠状态
+   */
+  const toggleExpanded = (key: string) => {
+    setExpandedKeys((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    );
+  };
+
+  /**
+   * 处理菜单项点击
+   */
+  const handleMenuClick = (item: MenuItem) => {
+    const hasChildren = item.children && item.children.length > 0;
+
+    if (hasChildren) {
+      toggleExpanded(item.key);
+    } else {
+      // 如果有路径，则进行路由跳转
+      if (item.path) {
+        navigate(item.path);
+      }
+      // 调用外部回调
+      onMenuSelect?.(item.key);
+    }
+  };
+
+  /**
+   * 渲染菜单项
+   */
+  const renderMenuItem = (item: MenuItem, level: number = 0) => {
+    const isExpanded = expandedKeys.includes(item.key);
+    const isSelected = currentSelectedKey === item.key;
+    const hasChildren = item.children && item.children.length > 0;
+
+    return (
+      <div key={item.key} className="menu-item-wrapper">
+        <div
+          className={`menu-item ${isSelected ? "selected" : ""} level-${level}`}
+          onClick={() => handleMenuClick(item)}
+        >
+          {/* 图标 */}
+          {item.icon && <span className="menu-icon">{item.icon}</span>}
+
+          {/* 标题 */}
+          {!collapsed && <span className="menu-title">{item.title}</span>}
+
+          {/* 徽章 */}
+          {!collapsed && item.badge && (
+            <span className="menu-badge">{item.badge}</span>
+          )}
+
+          {/* 展开箭头 */}
+          {!collapsed && hasChildren && (
+            <span className={`expand-arrow ${isExpanded ? "expanded" : ""}`}>
+              ▼
+            </span>
+          )}
+        </div>
+
+        {/* 子菜单 */}
+        {hasChildren && isExpanded && !collapsed && (
+          <div className="submenu">
+            {item.children!.map((child) => renderMenuItem(child, level + 1))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // 过滤后的菜单数据
+  const filteredMenuData = filterMenuItems(menuData, searchTerm);
+
+  return (
+    <div className="navigation-menu">
+      {/* 搜索框 */}
+      {!collapsed && (
+        <div className="menu-search">
+          <input
+            type="text"
+            placeholder="搜索菜单..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
+      )}
+
+      {/* 菜单项 */}
+      {filteredMenuData.map((item) => renderMenuItem(item))}
+
+      {/* 无搜索结果 */}
+      {searchTerm && filteredMenuData.length === 0 && !collapsed && (
+        <div className="no-results">
+          <span>未找到匹配项</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default NavigationMenu;
