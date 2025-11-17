@@ -50,7 +50,9 @@ function FirstExample() {
     const material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
     // TODO 实例三重点：创建一个父元素，并设置位置
     const parentCube = new THREE.Mesh(geometry, material2);
-    parentCube.position.set(-2, 0, 0);
+    parentCube.position.set(-3, 0, 0);
+    // parentCube.scale.set(2, 2, 2); // 父元素放大会影响子元素
+    parentCube.rotation.x = Math.PI / 4; // 绕 X轴旋转 45度
 
     // 创建一个子元素
     // 创建一个网格 网格是几何体和材质的组合
@@ -58,6 +60,8 @@ function FirstExample() {
     // TODO 实例三重点：设置子元素相对于父元素的位置，并加入到父元素中
     // 子元素相对于父元素的位置
     cube.position.set(2, 0, 0);
+    cube.scale.set(2, 2, 2); // 子元素放大不会影响父元素
+    cube.rotation.x = Math.PI / 4; // 绕 X轴旋转 45度（会叠加父元素旋转角度，故回旋转 90度）
     parentCube.add(cube);
     // 将网格添加到场景中
     scene.add(parentCube);
