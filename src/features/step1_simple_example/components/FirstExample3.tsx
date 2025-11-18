@@ -43,11 +43,11 @@ function FirstExample() {
     // 创建一个几何体 BoxGeometry（立方体）对象. 这个对象包含了一个立方体中所有的顶点（vertices）和面（faces）。
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     // 创建一个材质让他有颜色：MeshBasicMaterial 基础材质
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     const material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
     // TODO 实例三重点：创建一个父元素，并设置位置
     const parentCube = new THREE.Mesh(geometry, material2);
-    parentCube.position.set(-3, 0, 0);
+    parentCube.position.set(-2, 0, 0);
 
     // 创建一个子元素
     // 创建一个网格 网格是几何体和材质的组合
@@ -63,6 +63,18 @@ function FirstExample() {
     // 参数：5 表示坐标轴的长度
     const axesHelper = new THREE.AxesHelper(5);
     scene.add(axesHelper);
+
+    // ========== ArrowHelper 箭头辅助器示例 ==========
+
+    // 示例1：基础箭头 - 指向右上方
+    // TODO 做教学指示
+    const dir1 = new THREE.Vector3(1, 2, 0);
+    dir1.normalize(); // 归一化方向向量
+    const origin1 = new THREE.Vector3(0, 0, 0);
+    const length1 = 2;
+    const color1 = 0xffff00; // 黄色
+    const arrowHelper1 = new THREE.ArrowHelper(dir1, origin1, length1, color1);
+    scene.add(arrowHelper1);
 
     // 创建轨道控制器
     // 参数1：相机 参数二：事件监听的 HTML 元素
