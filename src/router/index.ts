@@ -15,6 +15,9 @@ const FirstExample3 = lazy(
 const AdvancedExample = lazy(
   () => import("@features/step1_simple_example/components/AdvancedExample")
 );
+const UseRequestAnimationFrame = lazy(
+  () => import("@features/step1_simple_example/components/UseRequestAnimationFrame")
+);
 /**
  * 路由配置
  * 定义应用的所有路由
@@ -44,6 +47,10 @@ export const router = createBrowserRouter([
         path: "advanced-example",
         Component: AdvancedExample,
       },
+      {
+        path: "use-request-animation-frame",
+        Component: UseRequestAnimationFrame,
+      },
     ],
   },
 ]);
@@ -59,4 +66,5 @@ export const ROUTES = {
   SIMPLE_EXAMPLE_2: "/simple-example-2",
   SIMPLE_EXAMPLE_3: "/simple-example-3",
   ADVANCED_EXAMPLE: "/advanced-example",
+  USE_REQUEST_ANIMATION_FRAME: "/use-request-animation-frame",
 } as const;

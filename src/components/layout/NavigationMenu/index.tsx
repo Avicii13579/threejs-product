@@ -220,6 +220,12 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
           icon: "🌟",
           path: ROUTES.ADVANCED_EXAMPLE,
         },
+        {
+          key: "use-request-animation-frame",
+          title: "使用 requestAnimationFrame 实现动画",
+          icon: "🔲",
+          path: ROUTES.USE_REQUEST_ANIMATION_FRAME,
+        },
       ],
     },
   ];
