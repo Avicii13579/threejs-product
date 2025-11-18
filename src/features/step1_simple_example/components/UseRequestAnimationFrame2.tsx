@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-// 目标：使用 requestAnimationFrame 实现动画
+// 目标：使用 requestAnimationFrame 实现动画：使用 THREE.Clock 跟踪时间
 export default function UseRequestAnimationFrame() {
   const mountRef = useRef<HTMLDivElement>(null);
 
@@ -48,19 +48,37 @@ export default function UseRequestAnimationFrame() {
     const axesHelper = new THREE.AxesHelper(5);
     scene.add(axesHelper);
 
+    const clock = new THREE.Clock();
     let animationId: number;
 
     // 动画循环函数
-    const animate = (time: number) => {
-      const t = (time / 1000) % 5;
-      cube.position.x = t * 1;
+    const animate = () => {
+      // 方案一：获取时钟运行总时长，计算物体位置
+      // const time = clock.getElapsedTime();
+      // console.log("时钟运行总时长：", time);
+      // // 计算物体位置
+      // const t = time % 5;
+      // cube.position.x = t * 1;
+
+      // 方案二：获取两次获取时间的间隔时间，计算物体位置
+      const deltaTime = clock.getDelta();
+      console.log("两次获取时间的间隔时间：", deltaTime);
+      // 计算物体位置
+      // 以 1 单位/秒的速度移动
+      cube.position.x += 1 * deltaTime;
+
+      // 超过 5 就回到 0（循环效果）
+      if (cube.position.x > 5) {
+        cube.position.x = 0;
+      }
+
       renderer.render(scene, camera);
       animationId = requestAnimationFrame(animate); // 注意：触发回调 animate 默认会传入 tempstamp 表示上一帧渲染的结束时间（从起始时间开始的毫秒数）
     };
 
-    animate(0);
+    animate();
 
-    // 清理函数
+    // 清理函数：防止内存泄漏和双重渲染
     return () => {
       // 取消动画循环
       cancelAnimationFrame(animationId);

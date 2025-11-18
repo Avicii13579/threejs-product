@@ -11,6 +11,9 @@ function AdvancedExample() {
   useEffect(() => {
     if (!mountRef.current) return;
 
+    // 保存 DOM 引用，避免清理函数中 ref 值已改变
+    const container = mountRef.current;
+
     // 创建场景
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x1a1a1a);
@@ -29,7 +32,7 @@ function AdvancedExample() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    mountRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
     // 创建多个几何体
     const geometries = [
@@ -62,9 +65,11 @@ function AdvancedExample() {
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
+    let animationId: number;
+
     // 动画循环
     const animate = () => {
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
 
       meshes.forEach((mesh, index) => {
         mesh.rotation.x += 0.01 * (index + 1);
@@ -87,11 +92,21 @@ function AdvancedExample() {
 
     // 清理函数
     return () => {
+      // 取消动画循环
+      cancelAnimationFrame(animationId);
+
+      // 移除事件监听
       window.removeEventListener("resize", handleResize);
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
+
+      // 移除 canvas 元素
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement);
       }
+
+      // 释放 Three.js 资源
       renderer.dispose();
+      geometries.forEach((geometry) => geometry.dispose());
+      materials.forEach((material) => material.dispose());
     };
   }, []);
 

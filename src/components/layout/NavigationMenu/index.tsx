@@ -44,14 +44,23 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
     if (selectedKey) return selectedKey;
 
     switch (location.pathname) {
+      case ROUTES.HOME:
+      case ROUTES.SIMPLE_EXAMPLE:
+        return "simple-example";
+      case ROUTES.SIMPLE_EXAMPLE_2:
+        return "first-example-2";
+      case ROUTES.SIMPLE_EXAMPLE_3:
+        return "first-example-3";
+      case ROUTES.ADVANCED_EXAMPLE:
+        return "advanced-example";
+      case ROUTES.USE_REQUEST_ANIMATION_FRAME:
+        return "use-request-animation-frame";
+      case ROUTES.USE_REQUEST_ANIMATION_FRAME_2:
+        return "use-request-animation-frame-2";
       case ROUTES.OVERVIEW:
         return "overview";
       case ROUTES.CHANGELOG:
         return "changelog";
-      case ROUTES.SIMPLE_EXAMPLE:
-        return "simple-example";
-      case ROUTES.ADVANCED_EXAMPLE:
-        return "advanced-example";
       default:
         return "simple-example";
     }
@@ -89,108 +98,108 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
 
   // 菜单数据
   const menuData: MenuItem[] = [
-    {
-      key: "overview",
-      title: "组件总览",
-      icon: "📋",
-      path: ROUTES.OVERVIEW,
-    },
-    {
-      key: "changelog",
-      title: "更新日志",
-      icon: "📝",
-      badge: "v1.0.0",
-      path: ROUTES.CHANGELOG,
-    },
-    {
-      key: "general",
-      title: "通用",
-      icon: "🔧",
-      children: [
-        {
-          key: "button",
-          title: "Button 按钮",
-          icon: "🔘",
-        },
-        {
-          key: "float-button",
-          title: "FloatButton 悬浮按钮",
-          icon: "🔘",
-          badge: "1.0",
-        },
-        {
-          key: "icon",
-          title: "Icon 图标",
-          icon: "🎨",
-        },
-        {
-          key: "typography",
-          title: "Typography 排版",
-          icon: "📝",
-        },
-      ],
-    },
-    {
-      key: "layout",
-      title: "布局",
-      icon: "📐",
-      children: [
-        {
-          key: "divider",
-          title: "Divider 分割线",
-          icon: "➖",
-        },
-        {
-          key: "flex",
-          title: "Flex 弹性布局",
-          icon: "📏",
-          badge: "1.0",
-        },
-        {
-          key: "grid",
-          title: "Grid 栅格",
-          icon: "🔲",
-        },
-        {
-          key: "layout",
-          title: "Layout 布局",
-          icon: "🏗️",
-        },
-        {
-          key: "space",
-          title: "Space 间距",
-          icon: "↔️",
-        },
-        {
-          key: "splitter",
-          title: "Splitter 分隔面板",
-          icon: "✂️",
-          badge: "1.0",
-        },
-      ],
-    },
-    {
-      key: "navigation",
-      title: "导航",
-      icon: "🧭",
-      children: [
-        {
-          key: "breadcrumb",
-          title: "Breadcrumb 面包屑",
-          icon: "🍞",
-        },
-        {
-          key: "menu",
-          title: "Menu 导航菜单",
-          icon: "📋",
-        },
-        {
-          key: "pagination",
-          title: "Pagination 分页",
-          icon: "📄",
-        },
-      ],
-    },
+    // {
+    //   key: "overview",
+    //   title: "组件总览",
+    //   icon: "📋",
+    //   path: ROUTES.OVERVIEW,
+    // },
+    // {
+    //   key: "changelog",
+    //   title: "更新日志",
+    //   icon: "📝",
+    //   badge: "v1.0.0",
+    //   path: ROUTES.CHANGELOG,
+    // },
+    // {
+    //   key: "general",
+    //   title: "通用",
+    //   icon: "🔧",
+    //   children: [
+    //     {
+    //       key: "button",
+    //       title: "Button 按钮",
+    //       icon: "🔘",
+    //     },
+    //     {
+    //       key: "float-button",
+    //       title: "FloatButton 悬浮按钮",
+    //       icon: "🔘",
+    //       badge: "1.0",
+    //     },
+    //     {
+    //       key: "icon",
+    //       title: "Icon 图标",
+    //       icon: "🎨",
+    //     },
+    //     {
+    //       key: "typography",
+    //       title: "Typography 排版",
+    //       icon: "📝",
+    //     },
+    //   ],
+    // },
+    // {
+    //   key: "layout",
+    //   title: "布局",
+    //   icon: "📐",
+    //   children: [
+    //     {
+    //       key: "divider",
+    //       title: "Divider 分割线",
+    //       icon: "➖",
+    //     },
+    //     {
+    //       key: "flex",
+    //       title: "Flex 弹性布局",
+    //       icon: "📏",
+    //       badge: "1.0",
+    //     },
+    //     {
+    //       key: "grid",
+    //       title: "Grid 栅格",
+    //       icon: "🔲",
+    //     },
+    //     {
+    //       key: "layout",
+    //       title: "Layout 布局",
+    //       icon: "🏗️",
+    //     },
+    //     {
+    //       key: "space",
+    //       title: "Space 间距",
+    //       icon: "↔️",
+    //     },
+    //     {
+    //       key: "splitter",
+    //       title: "Splitter 分隔面板",
+    //       icon: "✂️",
+    //       badge: "1.0",
+    //     },
+    //   ],
+    // },
+    // {
+    //   key: "navigation",
+    //   title: "导航",
+    //   icon: "🧭",
+    //   children: [
+    //     {
+    //       key: "breadcrumb",
+    //       title: "Breadcrumb 面包屑",
+    //       icon: "🍞",
+    //     },
+    //     {
+    //       key: "menu",
+    //       title: "Menu 导航菜单",
+    //       icon: "📋",
+    //     },
+    //     {
+    //       key: "pagination",
+    //       title: "Pagination 分页",
+    //       icon: "📄",
+    //     },
+    //   ],
+    // },
     {
       key: "threejs-examples",
       title: "Three.js 示例",
@@ -225,6 +234,12 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
           title: "使用 requestAnimationFrame 实现动画",
           icon: "🔲",
           path: ROUTES.USE_REQUEST_ANIMATION_FRAME,
+        },
+        {
+          key: "use-request-animation-frame-2",
+          title: "使用 requestAnimationFrame 实现动画2",
+          icon: "🔲",
+          path: ROUTES.USE_REQUEST_ANIMATION_FRAME_2,
         },
       ],
     },

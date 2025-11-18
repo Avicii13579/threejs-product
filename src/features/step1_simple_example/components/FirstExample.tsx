@@ -14,6 +14,9 @@ function FirstExample() {
   useEffect(() => {
     if (!mountRef.current) return;
 
+    // 保存 DOM 引用，避免清理函数中 ref 值已改变
+    const container = mountRef.current;
+
     // 创建一个场景
     const scene = new THREE.Scene();
 
@@ -41,7 +44,7 @@ function FirstExample() {
     // 设置背景色
     renderer.setClearColor(0x000000);
     // 将 canvas 添加到指定的容器中，而不是 body
-    mountRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
     // 创建一个几何体 BoxGeometry（立方体）对象. 这个对象包含了一个立方体中所有的顶点（vertices）和面（faces）。
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -52,9 +55,11 @@ function FirstExample() {
     // 将网格添加到场景中
     scene.add(cube);
 
+    let animationId: number;
+
     // 动画循环函数
     const animate = () => {
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
 
       // 旋转立方体
       cube.rotation.x += 0.01;
@@ -78,11 +83,21 @@ function FirstExample() {
 
     // 清理函数
     return () => {
+      // 取消动画循环
+      cancelAnimationFrame(animationId);
+
+      // 移除事件监听
       window.removeEventListener("resize", handleResize);
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
+
+      // 移除 canvas 元素
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement);
       }
+
+      // 释放 Three.js 资源
       renderer.dispose();
+      geometry.dispose();
+      material.dispose();
     };
   }, []);
 
