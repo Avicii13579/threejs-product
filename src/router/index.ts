@@ -21,6 +21,9 @@ const UseRequestAnimationFrame = lazy(
 const UseRequestAnimationFrame2 = lazy(
   () => import("@features/step1_simple_example/components/UseRequestAnimationFrame2")
 );
+const UseGSAPExample = lazy(
+  () => import("@features/step1_simple_example/components/UseGSAPExample")
+);
 /**
  * 路由配置
  * 定义应用的所有路由
@@ -58,6 +61,10 @@ export const router = createBrowserRouter([
         path: "use-request-animation-frame-2",
         Component: UseRequestAnimationFrame2,
       },
+      {
+        path: "use-gsap-example",
+        Component: UseGSAPExample,
+      },
     ],
   },
 ]);
@@ -75,4 +82,5 @@ export const ROUTES = {
   ADVANCED_EXAMPLE: "/advanced-example",
   USE_REQUEST_ANIMATION_FRAME: "/use-request-animation-frame",
   USE_REQUEST_ANIMATION_FRAME_2: "/use-request-animation-frame-2",
+  USE_GSAP_EXAMPLE: "/use-gsap-example",
 } as const;

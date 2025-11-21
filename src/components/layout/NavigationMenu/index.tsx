@@ -57,6 +57,8 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
         return "use-request-animation-frame";
       case ROUTES.USE_REQUEST_ANIMATION_FRAME_2:
         return "use-request-animation-frame-2";
+      case ROUTES.USE_GSAP_EXAMPLE:
+        return "use-gsap-example";
       case ROUTES.OVERVIEW:
         return "overview";
       case ROUTES.CHANGELOG:
@@ -240,6 +242,12 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
           title: "使用 requestAnimationFrame 实现动画2",
           icon: "🔲",
           path: ROUTES.USE_REQUEST_ANIMATION_FRAME_2,
+        },
+        {
+          key: "use-gsap-example",
+          title: "使用 GSAP 实现动画",
+          icon: "🔲",
+          path: ROUTES.USE_GSAP_EXAMPLE,
         },
       ],
     },
