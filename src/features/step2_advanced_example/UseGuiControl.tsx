@@ -129,14 +129,17 @@ function UseGuiControl() {
 
     const eventObj = {
       fullScreen: () => {
-        renderer.domElement.requestFullscreen();
+        container.requestFullscreen();
       },
       exitFullScreen: () => {
         document.exitFullscreen();
       },
     };
     // 创建 GUI 控制器
-    const gui = new GUI();
+    const gui = new GUI({
+      container: container, // ✅ GUI 添加到 container 内
+      autoPlace: true,
+    });
     gui.add(eventObj, "fullScreen").name("全屏");
     gui.add(eventObj, "exitFullScreen").name("退出全屏");
     gui.add(parentCube.material, "wireframe").name("线框模式");
