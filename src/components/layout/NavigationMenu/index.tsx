@@ -63,6 +63,8 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
         return "overview";
       case ROUTES.CHANGELOG:
         return "changelog";
+      case ROUTES.USE_GUI_CONTROL:
+        return "use-gui-control";
       default:
         return "simple-example";
     }
@@ -146,6 +148,12 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
           title: "使用 GSAP 实现动画",
           icon: "🔲",
           path: ROUTES.USE_GSAP_EXAMPLE,
+        },
+        {
+          key: "use-gui-control",
+          title: "使用 GUI 控制动画",
+          icon: "🔲",
+          path: ROUTES.USE_GUI_CONTROL,
         },
       ],
     },
