@@ -26,6 +26,7 @@ const UseGSAPExample = lazy(
 );
 
 const UseGuiControl = lazy(() => import("@features/step2_advanced_example/UseGuiControl"))
+const UseVertexDraw = lazy(() => import("@features/step2_advanced_example/UseVertexDraw"))
 
 /**
  * 路由配置
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
         path: "use-gui-control",
         Component: UseGuiControl,
       },
+      {
+        path: "use-vertex-draw",
+        Component: UseVertexDraw,
+      },
     ],
   },
 ]);
@@ -91,4 +96,5 @@ export const ROUTES = {
   USE_REQUEST_ANIMATION_FRAME_2: "/use-request-animation-frame-2",
   USE_GSAP_EXAMPLE: "/use-gsap-example",
   USE_GUI_CONTROL: "/use-gui-control",
+  USE_VERTEX_DRAW: "/use-vertex-draw",
 } as const;

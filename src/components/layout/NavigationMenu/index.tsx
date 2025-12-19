@@ -65,6 +65,8 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
         return "changelog";
       case ROUTES.USE_GUI_CONTROL:
         return "use-gui-control";
+      case ROUTES.USE_VERTEX_DRAW:
+        return "use-vertex-draw";
       default:
         return "simple-example";
     }
@@ -154,6 +156,12 @@ const NavigationMenu: React.FC<NavigationMenuProps> = ({
           title: "使用 GUI 控制动画",
           icon: "🔲",
           path: ROUTES.USE_GUI_CONTROL,
+        },
+        {
+          key: "use-vertex-draw",
+          title: "使用 Vertex Draw 实现动画",
+          icon: "🔲",
+          path: ROUTES.USE_VERTEX_DRAW,
         },
       ],
     },
