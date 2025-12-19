@@ -57,19 +57,66 @@ export default function UseVertexDraw() {
     // 创建索引，利用索引可以减少顶点数量，提高渲染性能
     const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
     geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-    console.log(geometry);
+
+    // 为顶点分组，实现不同面为不同材质
+    // 参数1：起始索引 参数2：顶点个数 参数3：材质索引
+    geometry.addGroup(0, 3, 0);
+    geometry.addGroup(3, 3, 1);
 
     // 创建一个材质让他有颜色：MeshBasicMaterial 基础材质
     const material = new THREE.MeshBasicMaterial({
-      color: 0x00ff00,
+      color: 0x00ff00, // 在 Three.js 中，颜色是用十六进制数表示的
+      // side: THREE.DoubleSide,
+      // wireframe: true,
+      opacity: 0.5, // 透明度为 50%
+      transparent: true, // 开启透明度
+    });
+    // 创建一个材质让他有颜色：MeshBasicMaterial 基础材质
+    const material1 = new THREE.MeshBasicMaterial({
+      color: 0xff0000, // 在 Three.js 中，颜色是用十六进制数表示的
       // side: THREE.DoubleSide,
       wireframe: true,
+      // opacity: 0.5, // 透明度为 50%
+      // transparent: true, // 开启透明度
     });
     // 创建一个网格 网格是几何体和材质的组合
-    const cube = new THREE.Mesh(geometry, material);
+    const cube = new THREE.Mesh(geometry, [material, material1]);
+    // 使用Object3D属性进行变换
+    cube.rotation.x = Math.PI / 4; // 沿X轴旋转45度
 
     // 将网格添加到场景中
     scene.add(cube);
+
+    // 创建一个六个面不同材质的正方体
+    const squareGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const squareMaterial = new THREE.MeshBasicMaterial({
+      color: 0xff0000,
+    });
+    const squareMaterial1 = new THREE.MeshBasicMaterial({
+      color: 0x00ff00,
+    });
+    const squareMaterial2 = new THREE.MeshBasicMaterial({
+      color: 0x0000ff,
+    });
+    const squareMaterial3 = new THREE.MeshBasicMaterial({
+      color: 0x00ffff,
+    });
+    const squareMaterial4 = new THREE.MeshBasicMaterial({
+      color: 0xcccc00,
+    });
+    const squareMaterial5 = new THREE.MeshBasicMaterial({
+      color: 0xffeeee,
+    });
+    const square = new THREE.Mesh(squareGeometry, [
+      squareMaterial,
+      squareMaterial1,
+      squareMaterial2,
+      squareMaterial3,
+      squareMaterial4,
+      squareMaterial5,
+    ]);
+    square.position.set(2, 0, 0);
+    scene.add(square);
 
     // 创建辅助坐标系 红色 X 轴 绿色 Y 轴 蓝色 Z 轴
     // 参数：5 表示坐标轴的长度
